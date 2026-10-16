@@ -1,0 +1,37 @@
+# INTENTIONALLY BROKEN: own namespace and workload; application untouched.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: taskboard-lab
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-lab
+  namespace: taskboard-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {exercise: service-lab}
+  template:
+    metadata:
+      labels: {exercise: service-lab}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: web
+          image: nginxinc/nginx-unprivileged:stable-alpine
+          ports: [{containerPort: 8080}]
+          resources:
+            requests: {cpu: 10m, memory: 16Mi}
+            limits: {cpu: 100m, memory: 64Mi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: broken-service
+  namespace: taskboard-lab
+spec:
+  # Wrong label on purpose. Correct selector is exercise: service-lab.
+  selector: {exercise: service-lab-typo}
+  ports: [{port: 80, targetPort: 8080}]

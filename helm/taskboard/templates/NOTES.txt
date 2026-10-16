@@ -1,0 +1,10 @@
+TaskBoard installed in {{ .Release.Namespace }}.
+Images must exist in your registry or local cluster image store.
+Follow readiness: kubectl get pods -n {{ .Release.Namespace }} -w
+{{ if .Values.ingress.enabled }}
+Open http://{{ .Values.ingress.host }} after controller and DNS setup.
+{{ else }}
+kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "taskboard.name" . }}-frontend 3000:8080
+{{ end }}
+Swagger: kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "taskboard.name" . }}-backend 8000:8000
+Database is a demo StatefulSet. Back up data before upgrades; PVCs survive Helm uninstall.

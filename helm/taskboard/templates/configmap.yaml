@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "taskboard.name" . }}-config
+  labels:
+    {{- include "taskboard.labels" . | nindent 4 }}
+data:
+  DB_USER: {{ .Values.postgres.username | quote }}
+  DB_NAME: {{ .Values.postgres.database | quote }}
+  nginx.conf: |
+    server {
+      listen 8080;
+      server_name _;
+      root /usr/share/nginx/html;
+      index index.html;
+      server_tokens off;
+      location = /nginx-health { access_log off; return 200 'ok'; }
+      location /api/ {
+        proxy_pass http://{{ include "taskboard.name" . }}-backend:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 30s;
+      }
+      location / { try_files $uri $uri/ /index.html; }
+    }

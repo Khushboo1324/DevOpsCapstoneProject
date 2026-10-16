@@ -1,0 +1,50 @@
+# Build/load these local images for a local cluster. CI overrides both with GHCR SHA tags.
+frontend:
+  image:
+    repository: taskboard-frontend
+    tag: local
+    pullPolicy: IfNotPresent
+  replicas: 2
+  resources:
+    requests: {cpu: 50m, memory: 32Mi}
+    limits: {cpu: 250m, memory: 128Mi}
+backend:
+  image:
+    repository: taskboard-backend
+    tag: local
+    pullPolicy: IfNotPresent
+  replicas: 2
+  seedDemo: true
+  resources:
+    requests: {cpu: 100m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 256Mi}
+imagePullSecrets: []
+postgres:
+  image: postgres:17-alpine
+  database: taskboard
+  username: taskboard
+  # Demonstration only. An existing Secret is recommended outside the local classroom.
+  password: taskboard
+  # Must contain a `password` key. Updating this does not rotate an existing database password.
+  existingSecret: ""
+  storage: 5Gi
+  storageClass: ""
+  resources:
+    requests: {cpu: 100m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 512Mi}
+ingress:
+  enabled: false
+  className: nginx
+  host: taskboard.local
+  annotations: {}
+  tls: []
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 60
+serviceMonitor:
+  enabled: false
+  labels:
+    release: monitoring
+  interval: 15s

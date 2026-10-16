@@ -1,0 +1,21 @@
+# Separate infrastructure release: helm install monitoring prometheus-community/kube-prometheus-stack
+# Enable discovery of ServiceMonitors in the taskboard namespace.
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelector:
+      matchLabels:
+        release: monitoring
+    serviceMonitorNamespaceSelector: {}
+    retention: 2d
+    resources:
+      requests: {cpu: 100m, memory: 512Mi}
+      limits: {cpu: 1000m, memory: 1536Mi}
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+      searchNamespace: monitoring
+  persistence:
+    enabled: false
+alertmanager:
+  enabled: false

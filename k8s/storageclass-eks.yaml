@@ -1,0 +1,12 @@
+# EKS managed nodes require the EBS CSI add-on (created by Terraform).
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: taskboard-gp3
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3
+  encrypted: "true"
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true

@@ -1,0 +1,25 @@
+# Bootstrap as cluster admin only if CI will manage the optional ServiceMonitor.
+# EKS access entry maps the GitHub role to this Kubernetes group.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: taskboard-monitoring-deploy
+  namespace: taskboard
+rules:
+  - apiGroups: [monitoring.coreos.com]
+    resources: [servicemonitors]
+    verbs: [get, list, watch, create, update, patch, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: taskboard-monitoring-deploy
+  namespace: taskboard
+subjects:
+  - kind: Group
+    name: taskboard-deploy
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: taskboard-monitoring-deploy
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,29 @@
+# INTENTIONALLY BROKEN: isolated from the application, no app labels or Services.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: taskboard-lab
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broken-image
+  namespace: taskboard-lab
+  labels: {exercise: broken-image}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {exercise: broken-image}
+  template:
+    metadata:
+      labels: {exercise: broken-image}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: web
+          # Deliberately nonexistent tag. Fix to nginxinc/nginx-unprivileged:stable-alpine.
+          image: nginxinc/nginx-unprivileged:taskboard-this-tag-does-not-exist
+          ports: [{containerPort: 8080}]
+          resources:
+            requests: {cpu: 10m, memory: 16Mi}
+            limits: {cpu: 100m, memory: 64Mi}
