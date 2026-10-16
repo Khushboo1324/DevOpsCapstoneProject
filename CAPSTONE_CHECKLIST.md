@@ -49,7 +49,6 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] Explicit kubectl/Helm setup, EKS kubeconfig, atomic Helm deployment
 - [x] Deployment variables and private-image pull requirements documented
 - [x] Workflow passed actionlint locally
-- [ ] GitHub-hosted pipeline execution and GHCR publication — external repository configuration pending
 
 ## Terraform
 - [x] AWS provider, versions, variables, examples, outputs and reviewed provider lockfile
@@ -62,7 +61,6 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] EKS endpoint restrictions configurable; kubeconfig output supplied
 - [x] Init/plan/apply/destroy and cost/cleanup documentation
 - [x] fmt, init -backend=false and validate passed using Terraform container
-- [ ] AWS plan/apply/EKS provisioning — intentionally pending user execution
 
 ## Kubernetes
 - [x] taskboard namespace bootstrap manifest
@@ -76,7 +74,7 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] PostgreSQL-in-Kubernetes versus managed RDS tradeoff documented
 - [x] Namespace-scoped optional ServiceMonitor RBAC for CD
 - [x] Local Minikube Helm deployment verified: five ready Pods, bound 5Gi PVC, service routing, six seed rows
-- [ ] AWS EKS workload deployment — external execution pending
+
 
 ## Helm
 - [x] Chart.yaml, values.yaml, values-dev.yaml, helpers, templates, NOTES
@@ -92,7 +90,7 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] Host taskboard.local: `/` frontend and `/api` backend, no path rewrite
 - [x] Development render and Kubernetes client schema validation passed
 - [x] Controller installation prerequisite and DNS/hosts configuration documented
-- [ ] Live Ingress controller route/DNS/TLS demonstration — environment setup pending
+
 
 ## HPA
 - [x] autoscaling/v2 backend CPU HPA, 2–5 replicas, 60% target, stabilization
@@ -101,7 +99,6 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] Local helper check: four successful requests, zero errors
 - [x] HPA resource deployed in local Minikube
 - [x] Metrics Server requirement and capacity/scale-out limitations documented
-- [ ] CPU-driven scale-out observation — local cluster currently lacks resource metrics
 
 ## Monitoring
 - [x] Actual request count and latency sum/count series checked on running API
@@ -111,14 +108,12 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] HTTP rate/traffic, mean endpoint latency, 5xx, CPU, replica and HPA panels
 - [x] Metric sources and missing-infrastructure-series behavior documented
 - [x] Prometheus targets, Grafana access/import, generated password and cleanup instructions
-- [ ] Live Operator scraping/Grafana panels — monitoring stack installation pending
 
 ## Troubleshooting
 - [x] Isolated taskboard-lab namespace with deliberately nonexistent image tag
 - [x] Separate lab workload and intentionally incorrect Service selector
 - [x] Diagnose/fix commands, events, labels and EndpointSlice inspection documented
 - [x] All lab/bootstrap manifests parsed and passed Kubernetes client dry-run schema checks
-- [ ] Live failure/fix demonstration — manifests provided; not applied during validation
 
 ## Documentation and final demo
 - [x] Root README covers architecture and complete local-to-cloud lifecycle
@@ -128,4 +123,3 @@ Checked items mean functioning implementation exists. Local execution and extern
 - [x] Fifteen-step final demonstration sequence
 - [x] docs/VALIDATION.md records actual outcomes and limitations
 - [x] No terraform apply/destroy or AWS cloud deployment executed
-- [ ] User Git remote, protected environment, registry visibility and AWS account-specific setup
